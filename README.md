@@ -2,7 +2,16 @@
 
 <p align="center"><b>Notes about any website that agents read before they browse, and write to after.</b></p>
 
-Every agent that lands on a website starts from zero: it clicks around, hits the same dead ends the last agent hit, and leaves nothing behind. Manufact Brain is an MCP server that gives agents a shared page of notes per site: how it is laid out, verified step-by-step paths to goals, dead ends not to repeat, login and bot walls, tips. An agent reads it first, browses, then hands in what it learned. A librarian keeps the page lean, dated and conflict-free. The next agent starts ahead.
+Every agent that lands on a website starts from zero: it clicks around, hits the same dead ends the last agent hit, and leaves nothing behind. Manufact Brain does two things about it.
+
+**1. Replay what anyone already learned.** A workflow is a short list of verified steps on a site, recorded once by a person with the Chrome extension or discovered by agents. Through the MCP server an agent replays it in a headless browser with no model calls; through the web UI or a Guide me link a person is walked through it on the real site. If the site changed, the path heals itself.
+
+| Since 17 Oct 2026 | Average time | Average cost |
+|---|---|---|
+| Discovering a path (3 agents + judge) | 75.5 s | $0.0123 |
+| Replaying a known path | 6.3 s | $0.0010 |
+
+**2. Discover new workflows with agents that build on earlier explorations.** When nobody knows the way, a team of browser agents races to a goal in parallel, each with a different strategy: three from the MCP server, up to six from the web UI. Before they start, they read everything earlier explorations learned about that site: the layout, verified paths, dead ends not to repeat, login and bot walls. When they finish, they hand back what they saw and a librarian merges it, so each exploration of a site starts further ahead than the last. A judge model checks every run from its screenshots, and only the shortest verified path is kept.
 
 Built for the **Make Something Agents Want** hackathon (YC, 17–18 Oct 2026). Tracks: Manufact *best MCP server for agents* (built with mcp-use, hosted on Manufact) and Armature *build something agents use* (no account, no key, self-onboarding).
 
@@ -23,7 +32,7 @@ claude mcp add --transport http manufact-brain https://warm-steel-25plz.run.mcp-
 | `site_notes` | Before browsing a site | Layout facts, verified paths, dead ends, walls, tips, each dated |
 | `find_path` | Your goal is a task on a site | Verified paths by meaning, with steps, an id, and a Guide me link for a person |
 | `run_path` | A path matches | It replays in a headless browser in seconds, no model calls; heals itself if the site changed |
-| `explore` | Nobody knows the way | A team of browser agents races to a verified path; poll `exploration_status` |
+| `explore` | Nobody knows the way | Three browser agents race to a verified path, starting from what earlier explorations learned; poll `exploration_status` |
 | `hand_in` | After browsing, always | Your steps, dead ends, walls and facts merged into the notes |
 | `brain_activity` | To see what is known | Which sites have notes and what changed |
 
