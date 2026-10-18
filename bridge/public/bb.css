@@ -74,3 +74,28 @@ label { font: 500 13px var(--body); color: var(--stone); display: grid; gap: 6px
 pre, code { font-family: var(--mono); }
 ::selection { background: var(--orange-soft); color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+
+/* ── Layout: a fixed left rail for navigation on wide screens, content beside it ─────────── */
+@media (min-width: 901px) {
+  body { padding: 0; }
+  main { max-width: 1500px; margin: 0; padding: 30px 36px 80px 280px; gap: 24px; }
+  .nav { position: fixed; left: 0; top: 0; bottom: 0; width: 244px; flex-direction: column; align-items: stretch; gap: 2px; padding: 22px 14px 20px; margin: 0; border-radius: 0; border-width: 0 1px 0 0; background: var(--white); backdrop-filter: none; overflow-y: auto; z-index: 5; }
+  .nav .brand { margin: 0 8px 22px; }
+  .nav .brand img { height: 26px; }
+  .nav a:not(.brand) { padding: 9px 12px; border-bottom: 0; border-left: 2px solid transparent; border-radius: 6px; font-size: 14px; }
+  .nav a:not(.brand):hover { background: rgba(255, 255, 255, .03); }
+  .nav a.on { border-left-color: var(--orange); background: var(--orange-soft); color: var(--ink); }
+  .nav-sep { width: auto; height: 1px; margin: 12px 8px 8px; }
+  .nav-group { margin: 2px 12px 6px; }
+  header { padding-left: 20px; border-left: 3px solid var(--orange); }
+  h1 { font-size: clamp(34px, 3.6vw, 52px); }
+  .lede { max-width: 72ch; }
+  .stats { gap: 0 !important; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); overflow: hidden; }
+  .stats > div { padding: 16px 22px; border-right: 1px solid var(--line); flex: 1 1 150px; min-width: 150px; }
+  .stats > div:last-child { border-right: 0; }
+  .stats b { font-family: var(--display) !important; font-weight: 800 !important; }
+}
+/* Narrow screens keep the top bar. */
+@media (max-width: 900px) {
+  .stats { display: flex; gap: 16px 28px; flex-wrap: wrap; }
+}
