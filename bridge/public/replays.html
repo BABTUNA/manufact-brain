@@ -13,7 +13,7 @@
   .stats b.big { color: var(--orange-deep); }
   .stats span { color: var(--stone); font-size: 13px; }
   .connect { display: grid; gap: 10px; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
-  .connect h2 { color: var(--paper); }
+  .connect h2 { color: var(--ink); }
   .connect p { margin: 0; color: var(--stone); font-size: 14px; max-width: 70ch; }
   .connect p code { overflow-wrap: anywhere; }
   .connect pre { margin: 0; background: var(--well); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 500 12.5px/1.6 var(--mono); color: #EDEDED; }
@@ -49,13 +49,10 @@
   <div class="stats" id="stats"></div>
   <section class="connect">
     <h2>Connect your agent</h2>
-    <p>Manufact Brain is an MCP server. Add it to Claude Code (it is already in this repo's <code>.mcp.json</code>) or any MCP client, and your agent looks up a verified path before it starts clicking.</p>
-    <pre>{
-  "mcpServers": {
-    "manufact-brain": { "command": "node", "args": ["mcp/server.js"] }
-  }
-}</pre>
-    <div class="tools"><span>search_workflows</span><span>get_workflow</span><span>run_workflow</span><span>explore_site</span><span>get_exploration</span><span>list_sites</span></div>
+    <p>Manufact Brain is an MCP server on Manufact. Add it to Claude Code, Codex, Cursor, VS Code or any MCP client, and your agent reads the site's notes before it starts clicking and replays a verified path in seconds.</p>
+    <pre>claude mcp add --transport http manufact-brain https://warm-steel-25plz.run.mcp-use.com/mcp
+codex mcp add manufact-brain --url https://warm-steel-25plz.run.mcp-use.com/mcp</pre>
+    <div class="tools"><span>site_notes</span><span>find_path</span><span>run_path</span><span>explore</span><span>exploration_status</span><span>hand_in</span><span>brain_activity</span></div>
     <p>Or over HTTP: <code>POST {{BASE}}/workflows/&lt;id&gt;/run</code></p>
   </section>
   <section>
