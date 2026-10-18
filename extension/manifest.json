@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Manufact Brain",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Record how you do something on a website, or let agents discover it. Get guided through it in your own browser.",
   "permissions": [
     "activeTab",

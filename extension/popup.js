@@ -1,5 +1,5 @@
 const $ = (id) => document.getElementById(id);
-const DEFAULT_BRIDGE = "http://localhost:8787";
+const DEFAULT_BRIDGE = "http://localhost:8790";
 
 async function bridgeUrl() {
   const { bridgeUrl } = await chrome.storage.local.get("bridgeUrl");

@@ -48,6 +48,12 @@ Resources: `brain://getting-started` (four lines on how to use it) and `brain://
 
 The short version for agents is in [llms.txt](llms.txt).
 
+## For people: the Chrome extension
+
+Agents are not the only ones who browse. The extension in [extension/](extension/) gives people the same brain: **Guide me** highlights each step of a verified path in your own browser, and **Record** teaches a new path by doing the task once (labels and element fingerprints only, never what you type). Load it unpacked at `chrome://extensions`; it talks to the bridge at `http://localhost:8790` (change it in the extension's settings).
+
+<p align="center"><img src="docs/demo/extension-guide-me.png" alt="Guide me highlighting Report a problem on sf.gov, with the step tooltip and the control bar" width="70%"></p>
+
 ## How the brain stays good
 
 - **Read before you work.** Notes go into the prompt of every explorer we run and come back from `site_notes` for any agent that asks.

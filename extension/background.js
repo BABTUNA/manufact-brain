@@ -66,7 +66,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 
 // The local Manufact Brain bridge replaces InsForge. It serves the same
 // /functions/* paths, so existing call sites keep using `insforgeUrl`.
-const DEFAULT_BRIDGE = "http://localhost:8787";
+const DEFAULT_BRIDGE = "http://localhost:8790";
 
 async function getConfig() {
   const { bridgeUrl } = await chrome.storage.local.get("bridgeUrl");
