@@ -39,12 +39,16 @@ const ok = (text: string, structuredContent?: Record<string, unknown>) => ({ con
 const fail = (err: unknown) => ({ content: [{ type: "text" as const, text: `Manufact Brain could not do that: ${(err as Error).message}. If the bridge is unreachable, try again in a minute; nothing else is required from you.` }], isError: true as const });
 
 const pathLines = (steps: string[]) => steps.map((s, i) => `${i + 1}. ${s}`).join("\n");
+// A page on the bridge with a Start guide button: with the Manufact Brain Chrome extension
+// installed, it opens the site and highlights each step in the person's own browser.
+const guideUrl = (id: string) => `${BRIDGE}/guide/${encodeURIComponent(id)}`;
+const GUIDE_HINT = "If a person wants to be walked through it in their own browser, give them the Guide me link: it highlights each step on the real site (needs the Manufact Brain Chrome extension).";
 
 // ── 1. read before you browse ───────────────────────────────────────────────────────────────
 export const siteNotes = server.tool(
   {
     name: "site_notes",
-    description: "Call this FIRST, before browsing any website. Returns the team notes for the site: layout facts, verified paths (goal → steps), dead ends to avoid, login/bot walls and tips, each with the date it was last verified. Empty notes mean nobody has been here yet: browse, then call hand_in so the next agent benefits. Free, no account needed.",
+    description: "Call this FIRST, before browsing any website. Returns the team notes for the site: layout facts, verified paths (goal → steps) with Guide me links for people, dead ends to avoid, login/bot walls and tips, each with the date it was last verified. Empty notes mean nobody has been here yet: browse, then call hand_in so the next agent benefits. Free, no account needed.",
     inputSchema: z.object({ url: z.string().describe("The site or page you are about to browse, e.g. https://docs.python.org/3/ or sf.gov") }),
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
@@ -52,9 +56,10 @@ export const siteNotes = server.tool(
     try {
       const site = siteOf(withScheme(url));
       const n = await bridge<{ site: string; version: number; facts: number; text: string; doc: any }>(`/brain/${encodeURIComponent(site)}.json`);
-      const paths = (n.doc?.paths || []).map((p: any) => ({ goal: p.goal, steps: p.steps, stale: Boolean(p.stale) }));
+      const paths = (n.doc?.paths || []).map((p: any) => ({ goal: p.goal, steps: p.steps, stale: Boolean(p.stale), ...(p.workflowId && !p.stale ? { workflowId: p.workflowId, guideUrl: guideUrl(p.workflowId) } : {}) }));
+      const guides = paths.filter((p: any) => p.guideUrl).map((p: any) => `- ${p.goal}: ${p.guideUrl}`).join("\n");
       const text = n.facts
-        ? `${n.text}\n\nUse these notes: follow a known path when one fits your goal, never repeat a listed dead end, and treat facts as true unless the page proves otherwise. When you are done, call hand_in with what you learned.`
+        ? `${n.text}${guides ? `\n\nGuide me links (walk a person through a known path in their own browser):\n${guides}` : ""}\n\nUse these notes: follow a known path when one fits your goal, never repeat a listed dead end, and treat facts as true unless the page proves otherwise. When you are done, call hand_in with what you learned.`
         : `No notes for ${site} yet. You are the first agent here. Browse normally, then call hand_in with the steps that worked, any dead ends and anything about the layout worth knowing, so the next agent starts ahead of you.`;
       return ok(text, { site, version: n.version, facts: n.facts, text: n.text, paths });
     } catch (err) { return fail(err); }
@@ -65,7 +70,7 @@ export const siteNotes = server.tool(
 export const findPath = server.tool(
   {
     name: "find_path",
-    description: "Search the library of verified paths by meaning. Each path is a short list of steps a person or agent can follow on a site, recorded by a teammate or discovered by agents and checked by a judge from screenshots. Use it when your goal is a task on a website ('cancel a subscription on X', 'find the glossary on Y'). Returns the best matches with their steps and a replay id for run_path.",
+    description: "Search the library of verified paths by meaning. Each path is a short list of steps a person or agent can follow on a site, recorded by a teammate or discovered by agents and checked by a judge from screenshots. Use it when your goal is a task on a website ('cancel a subscription on X', 'find the glossary on Y'). Returns the best matches with their steps, a replay id for run_path, and a Guide me link a person can click to be walked through the path in their own browser.",
     inputSchema: z.object({
       goal: z.string().describe("What you want to do, in plain words"),
       site: z.string().optional().describe("Limit to one site, e.g. github.com"),
@@ -79,10 +84,10 @@ export const findPath = server.tool(
       const matches = hits
         .filter((h) => !site || h.site === siteOf(withScheme(site)))
         .slice(0, limit)
-        .map((h) => ({ id: h.id, task: h.task, site: h.site, steps: h.steps || [], taughtBy: h.taughtBy || "human", score: h.score }));
+        .map((h) => ({ id: h.id, task: h.task, site: h.site, steps: h.steps || [], taughtBy: h.taughtBy || "human", score: h.score, guideUrl: guideUrl(h.id) }));
       if (!matches.length) return ok(`No verified path matches "${goal}"${site ? ` on ${site}` : ""}. Call site_notes for the site's layout and tips, browse yourself, or call explore to send agents to discover a path.`, { matches: [] });
-      const text = matches.map((m) => `${m.task} (${m.site}, ${m.taughtBy === "agent" ? "discovered by agents" : "recorded by a teammate"}, id ${m.id}):\n${pathLines(m.steps)}`).join("\n\n");
-      return ok(`${text}\n\nTo have the path replayed in a headless browser (seconds, no model calls), call run_path with the id.`, { matches });
+      const text = matches.map((m) => `${m.task} (${m.site}, ${m.taughtBy === "agent" ? "discovered by agents" : "recorded by a teammate"}, id ${m.id}):\n${pathLines(m.steps)}\nGuide me: ${m.guideUrl}`).join("\n\n");
+      return ok(`${text}\n\n${GUIDE_HINT} To have the path replayed in a headless browser instead (seconds, no model calls), call run_path with the id.`, { matches });
     } catch (err) { return fail(err); }
   },
 );
@@ -100,9 +105,9 @@ export const runPath = server.tool(
       const r = await bridge<any>(`/workflows/${encodeURIComponent(id)}/run`, { method: "POST", body: JSON.stringify({ inputs: inputs || {}, caller: "mcp" }) });
       const steps = (r.steps || []).map((s: any) => `${s.n}. ${s.instruction} [${s.status}]`).join("\n");
       const text = r.ok
-        ? `Reached the end of "${r.task}" in ${r.seconds}s${r.healed ? " (the path had broken and healed itself)" : ""}.\nFinal page: ${r.title || ""} ${r.finalUrl}\n\n${steps}\n\nPage text (excerpt):\n${String(r.pageText || "").slice(0, 1500)}`
+        ? `Reached the end of "${r.task}" in ${r.seconds}s${r.healed ? " (the path had broken and healed itself)" : ""}.\nFinal page: ${r.title || ""} ${r.finalUrl}\n\n${steps}\n\nGuide me (walk a person through it in their own browser): ${guideUrl(id)}\n\nPage text (excerpt):\n${String(r.pageText || "").slice(0, 1500)}`
         : `The path "${r.task}" broke at step ${r.failedAt}: ${r.reason}.${r.healFailed ? ` Repair failed: ${r.healFailed}.` : ""} The notes now mark it stale. Call site_notes and browse the last working page yourself, then hand_in the new steps.`;
-      return ok(text, { ok: r.ok, workflowId: r.workflowId, seconds: r.seconds, healed: r.healed, failedAt: r.failedAt ?? null, finalUrl: r.finalUrl, title: r.title });
+      return ok(text, { ok: r.ok, workflowId: r.workflowId, seconds: r.seconds, healed: r.healed, failedAt: r.failedAt ?? null, finalUrl: r.finalUrl, title: r.title, guideUrl: guideUrl(id) });
     } catch (err) { return fail(err); }
   },
 );
@@ -144,8 +149,8 @@ export const explorationStatus = server.tool(
       let winner: any = null;
       if (ex.winner) {
         const a = ex.agents[ex.winner.agent];
-        winner = { workflowId: ex.winner.workflowId, steps: (a.trail || []).map((s: any) => s.instruction) };
-        text += `\n\nWinning path (id ${ex.winner.workflowId}):\n${pathLines(winner.steps)}\n\nCall run_path with that id to replay it, or follow the steps yourself.`;
+        winner = { workflowId: ex.winner.workflowId, steps: (a.trail || []).map((s: any) => s.instruction), guideUrl: guideUrl(ex.winner.workflowId) };
+        text += `\n\nWinning path (id ${ex.winner.workflowId}):\n${pathLines(winner.steps)}\nGuide me: ${winner.guideUrl}\n\nCall run_path with that id to replay it, follow the steps yourself, or give a person the Guide me link.`;
       } else if (!running) text += `\n\nNo verified path. ${ex.status === "login_required" ? "The goal sits behind a login." : ex.status === "blocked" ? "The site blocked the agents (bot protection)." : "The agents could not reach the goal; try a more specific goal or a closer start URL."}`;
       if (ex.learned?.summary) text += `\n\nNotes: ${ex.learned.summary}`;
       if (running) text += `\n\nStill working; check again in about 20 seconds.`;
