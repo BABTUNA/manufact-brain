@@ -1,0 +1,7 @@
+result: I could not get the sf.gov notes. The site_notes call failed twice with "fetch failed", and no further checks were possible because outbound curl needs approval in this non-interactive session.
+
+**What failed and where**
+
+- The hosted MCP server at warm-steel-25plz.run.mcp-use.com did respond to my calls. The error text is the one the server throws when its own fetch to the brain backend fails, so the server is up but its backend is unreachable.
+- That backend is the bridge. The hosted MCP server reads its location from the BRIDGE_URL deploy variable, and the keeper script in the bridge folder points at the Supabase compute bridge at vwnptwlibsllqexidmrj.supabase.co. That instance is most li
+cost 1.11039075 turns 20
