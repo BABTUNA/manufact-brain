@@ -38,4 +38,5 @@ If the bridge tunnel drops (site_notes answers "fetch failed"): `bash bridge/scr
 2. **A site nobody knows.** Ask about a goal on a new site. `site_notes` says "you are the first agent here", the agent browses, then calls `hand_in`. Switch to the Brain page: the notes appear, with the log line "claude-code handed in".
 3. **Second agent, same site.** New session, related goal. `site_notes` now has layout facts and the dead end; the agent goes straight there.
 4. **Gains page.** Cold vs warm on held-out goals, side by side. "Same goals, same site, the only difference is the brain."
-5. Close on the Manufact dashboard: sessions, tool calls, the server's listing.
+5. **Agent hands off to a person.** In Claude Code: "How do I report a pothole on sf.gov? Give me a Guide me link." Click the link; the guide page opens, Start guide, and the extension highlights Report a problem on the real site.
+6. Close on the Manufact dashboard: sessions, tool calls, the server's listing.

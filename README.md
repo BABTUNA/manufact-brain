@@ -21,7 +21,7 @@ claude mcp add --transport http manufact-brain https://warm-steel-25plz.run.mcp-
 | Tool | When | What you get |
 |---|---|---|
 | `site_notes` | Before browsing a site | Layout facts, verified paths, dead ends, walls, tips, each dated |
-| `find_path` | Your goal is a task on a site | Verified paths by meaning, with steps and an id |
+| `find_path` | Your goal is a task on a site | Verified paths by meaning, with steps, an id, and a Guide me link for a person |
 | `run_path` | A path matches | It replays in a headless browser in seconds, no model calls; heals itself if the site changed |
 | `explore` | Nobody knows the way | A team of browser agents races to a verified path; poll `exploration_status` |
 | `hand_in` | After browsing, always | Your steps, dead ends, walls and facts merged into the notes |
@@ -50,7 +50,7 @@ The short version for agents is in [llms.txt](llms.txt).
 
 ## For people: the Chrome extension
 
-Agents are not the only ones who browse. The extension in [extension/](extension/) gives people the same brain: **Guide me** highlights each step of a verified path in your own browser, and **Record** teaches a new path by doing the task once (labels and element fingerprints only, never what you type). Load it unpacked at `chrome://extensions`; it talks to the bridge at `http://localhost:8790` (change it in the extension's settings).
+Agents are not the only ones who browse. The extension in [extension/](extension/) gives people the same brain, and the MCP tools hand them off to it: `find_path`, `site_notes` and `run_path` return a **Guide me** link with every verified path, so an agent can answer "how do I…?" with a link the person clicks to be walked through it. **Guide me** highlights each step of a verified path in your own browser, and **Record** teaches a new path by doing the task once (labels and element fingerprints only, never what you type). Load it unpacked at `chrome://extensions`; it talks to the bridge at `http://localhost:8790` (change it in the extension's settings).
 
 <p align="center"><img src="docs/demo/extension-guide-me.png" alt="Guide me highlighting Report a problem on sf.gov, with the step tooltip and the control bar" width="70%"></p>
 
