@@ -8,6 +8,8 @@ import { withArmature } from "./analytics.js";
 
 const BRIDGE = (process.env.BRIDGE_URL || "http://localhost:8790").replace(/\/+$/, "");
 const NAME = "Manufact Brain";
+// Every explore call races exactly three agents: enough strategies to compare, a predictable cost.
+const AGENTS = 3;
 
 const server = new MCPServer({
   name: "manufact-brain",
@@ -116,19 +118,18 @@ export const runPath = server.tool(
 export const explore = server.tool(
   {
     name: "explore",
-    description: "Send a team of browser agents to a public site to discover how to reach a goal. They read the site's notes first, race in separate headless browsers, a judge scores every run from screenshots, and the shortest verified path is saved to the library and the notes. Takes one to three minutes; poll exploration_status with the returned id. Only for public pages: agents never log in or create accounts.",
+    description: "Send three browser agents to a public site to discover how to reach a goal. They read what earlier explorations learned about the site first, race in separate headless browsers with different strategies, a judge scores every run from screenshots, and the shortest verified path is saved to the library and the notes. Takes one to three minutes; poll exploration_status with the returned id. Only for public pages: agents never log in or create accounts.",
     inputSchema: z.object({
       goal: z.string().max(300).describe("What to find or do, e.g. 'find how to report a pothole'"),
       url: z.string().describe("Where to start, e.g. https://www.sf.gov/"),
-      agents: z.number().int().min(1).max(6).default(3).describe("How many agents race (default 3)"),
     }),
     annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
   },
-  async ({ goal, url, agents }) => {
+  async ({ goal, url }) => {
     try {
-      const ex = await bridge<any>(`/explore`, { method: "POST", body: JSON.stringify({ goal, url: withScheme(url), agents }) });
+      const ex = await bridge<any>(`/explore`, { method: "POST", body: JSON.stringify({ goal, url: withScheme(url), agents: AGENTS }) });
       const facts = ex.brain?.facts || 0;
-      return ok(`${agents} agents are exploring ${siteOf(withScheme(url))} for "${goal}"${facts ? `, starting from ${facts} facts in the notes` : ", starting from zero (no notes yet)"}. Exploration id: ${ex.id}. Poll exploration_status with this id every 20 seconds or so; watch it live at ${BRIDGE}/explore/${ex.id}.`, { id: ex.id, watchUrl: `${BRIDGE}/explore/${ex.id}`, notesRead: facts });
+      return ok(`${AGENTS} agents are exploring ${siteOf(withScheme(url))} for "${goal}"${facts ? `, starting from ${facts} facts in the notes` : ", starting from zero (no notes yet)"}. Exploration id: ${ex.id}. Poll exploration_status with this id every 20 seconds or so; watch it live at ${BRIDGE}/explore/${ex.id}.`, { id: ex.id, watchUrl: `${BRIDGE}/explore/${ex.id}`, notesRead: facts });
     } catch (err) { return fail(err); }
   },
 );
