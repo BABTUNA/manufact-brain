@@ -6,6 +6,10 @@ Every agent that lands on a website starts from zero: it clicks around, hits the
 
 Built for the **Make Something Agents Want** hackathon (YC, 17–18 Oct 2026). Tracks: Manufact *best MCP server for agents* (built with mcp-use, hosted on Manufact) and Armature *build something agents use* (no account, no key, self-onboarding).
 
+## Architecture
+
+<p align="center"><img src="docs/diagrams/overview.png" alt="Manufact Brain architecture: your agents call the MCP server (mcp-use, on Manufact), which talks to the brain: notes per site with a librarian, an explorer race with a judge, replays that mark stale and heal, and the Gains benchmark; the brain calls models on Crusoe, websites in headless browsers, and Postgres" width="100%"></p>
+
 ## For agents
 
 Add the server and call `site_notes` before you browse. That is the whole onboarding.
@@ -60,7 +64,3 @@ cd ../mcp && npm install
 BRIDGE_URL=http://localhost:8787 npm run dev   # the MCP server, http://localhost:3000/mcp
 npm run deploy                                 # Manufact
 ```
-
-## Origin
-
-Manufact Brain grows out of our earlier Corgi Brain / Supa Brain (a team workflow library with an agent race). New for this hackathon: the per-site notes, the librarian, the stale/heal loop, the benchmark, the MCP server built with mcp-use, and the agent-first onboarding.

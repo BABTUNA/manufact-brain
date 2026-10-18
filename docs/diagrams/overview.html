@@ -10,39 +10,50 @@
   .l{font:500 13px "JetBrains Mono",monospace;fill:#646B78}
   .box{fill:#fff;stroke:#111318;stroke-width:2}
   .ext{fill:#F5F6F8;stroke:#9AA0AB;stroke-width:1.5;stroke-dasharray:6 5}
+  .sub{fill:#1C1F26;stroke:#3A3F4B;stroke-width:1.5}
   .a{stroke:#111318;stroke-width:2;fill:none}
 </style></head><body>
-<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="760" viewBox="0 0 1560 760">
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="960" viewBox="0 0 1560 960">
   <defs><marker id="h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#111318"/></marker></defs>
 
   <image href="../../assets/logo/manufactbrain-mark.svg" x="36" y="26" width="64" height="64"/>
   <text x="108" y="70" style="font:800 30px Archivo,sans-serif;letter-spacing:-.03em" fill="#111318">Manufact Brain <tspan fill="#4A3BD6">architecture</tspan></text>
 
-  <!-- top row -->
-  <rect class="box" x="180" y="130" width="300" height="90" rx="12"/>
-  <text class="t" x="330" y="169">Your team</text><text class="s" x="330" y="195">Chrome extension · Ask room</text>
-  <rect class="ext" x="630" y="130" width="300" height="90" rx="12"/>
-  <text class="t" x="780" y="169">Explorer agents</text><text class="s" x="780" y="195">race in headless browsers · hand in</text>
-  <rect x="1080" y="130" width="300" height="90" rx="12" fill="#111318"/>
-  <text class="t" x="1230" y="169" style="fill:#F5F6F8">Keeper</text><text class="s" x="1230" y="195" style="fill:#B9B1FF">replays every path · marks stale · heals</text>
+  <!-- row 1: who uses it -->
+  <rect class="box" x="480" y="120" width="600" height="90" rx="12"/>
+  <text class="t" x="780" y="159">Your agents</text><text class="s" x="780" y="185">Claude Code · Cursor · any MCP client · no account, no key</text>
 
-  <!-- core -->
-  <rect x="180" y="320" width="1200" height="170" rx="16" fill="#6B5CFF" stroke="#111318" stroke-width="2"/>
-  <text class="t" x="780" y="382" style="font-size:30px">Manufact Brain</text>
-  <text class="s" x="780" y="414" style="fill:#111318;font-weight:500;font-size:16px">shared notes per site · librarian merge · judge · benchmark</text>
-  <text class="s" x="780" y="452" style="fill:#111318;font-size:14px">read before you work · write after · lean, dated, versioned · every change logged</text>
+  <!-- row 2: the product -->
+  <rect x="180" y="290" width="1200" height="130" rx="16" fill="#6B5CFF" stroke="#111318" stroke-width="2"/>
+  <text class="t" x="780" y="340" style="font-size:28px">Manufact Brain MCP server</text>
+  <text class="s" x="780" y="372" style="fill:#111318;font-weight:500;font-size:16px">built with mcp-use · hosted on Manufact</text>
+  <text class="s" x="780" y="400" style="fill:#111318;font-size:14px">site_notes · find_path · run_path · explore · exploration_status · hand_in · brain_activity</text>
 
-  <!-- bottom row -->
-  <rect class="ext" x="250" y="590" width="460" height="90" rx="12"/>
-  <text class="t" x="480" y="629">Crusoe Managed Inference</text><text class="s" x="480" y="655">Nemotron 3.5 agents · Gemma 4 judge · Nemotron Nano librarian</text>
-  <rect class="ext" x="910" y="590" width="340" height="90" rx="12"/>
-  <text class="t" x="1080" y="629">Web apps</text><text class="s" x="1080" y="655">headless browsers, no logins</text>
+  <!-- row 3: the brain -->
+  <rect x="180" y="500" width="1200" height="200" rx="16" fill="#111318"/>
+  <text class="t" x="780" y="540" style="fill:#F5F6F8;font-size:22px">The brain</text>
+  <rect class="sub" x="210" y="565" width="270" height="110" rx="10"/>
+  <text class="t" x="345" y="606" style="fill:#F5F6F8;font-size:17px">Notes per site</text><text class="s" x="345" y="632" style="fill:#B9B1FF;font-size:13px">librarian merge · dated · versioned</text><text class="s" x="345" y="652" style="fill:#B9B1FF;font-size:13px">lean, every change logged</text>
+  <rect class="sub" x="500" y="565" width="270" height="110" rx="10"/>
+  <text class="t" x="635" y="606" style="fill:#F5F6F8;font-size:17px">Explorer race</text><text class="s" x="635" y="632" style="fill:#B9B1FF;font-size:13px">agents read the notes, race,</text><text class="s" x="635" y="652" style="fill:#B9B1FF;font-size:13px">a judge checks screenshots</text>
+  <rect class="sub" x="790" y="565" width="270" height="110" rx="10"/>
+  <text class="t" x="925" y="606" style="fill:#F5F6F8;font-size:17px">Replays</text><text class="s" x="925" y="632" style="fill:#B9B1FF;font-size:13px">a path in seconds, no model calls</text><text class="s" x="925" y="652" style="fill:#B9B1FF;font-size:13px">breaks → stale · heals → fresh</text>
+  <rect class="sub" x="1080" y="565" width="270" height="110" rx="10"/>
+  <text class="t" x="1215" y="606" style="fill:#F5F6F8;font-size:17px">Gains</text><text class="s" x="1215" y="632" style="fill:#B9B1FF;font-size:13px">held-out goals cold, learn,</text><text class="s" x="1215" y="652" style="fill:#B9B1FF;font-size:13px">then warm, side by side</text>
+
+  <!-- row 4: what it calls -->
+  <rect class="ext" x="180" y="800" width="360" height="90" rx="12"/>
+  <text class="t" x="360" y="839">Models</text><text class="s" x="360" y="865">Crusoe Managed Inference: Nemotron · GLM</text>
+  <rect class="ext" x="600" y="800" width="360" height="90" rx="12"/>
+  <text class="t" x="780" y="839">Websites</text><text class="s" x="780" y="865">headless browsers, no logins</text>
+  <rect class="ext" x="1020" y="800" width="360" height="90" rx="12"/>
+  <text class="t" x="1200" y="839">Postgres</text><text class="s" x="1200" y="865">notes · paths · log · screenshots</text>
 
   <!-- arrows -->
-  <path class="a" d="M330 220V318" marker-end="url(#h)"/><text class="l" x="342" y="274">goals · Brain · Gains pages</text>
-  <path class="a" d="M780 220V318" marker-end="url(#h)"/><text class="l" x="792" y="274">read notes · hand in</text>
-  <path class="a" d="M1230 220V318" marker-end="url(#h)"/><text class="l" x="1242" y="274">stale · heal</text>
-  <path class="a" d="M480 490V588" marker-end="url(#h)"/><text class="l" x="492" y="544">tool calls · screenshots · JSON</text>
-  <path class="a" d="M1080 490V588" marker-end="url(#h)"/><text class="l" x="1092" y="544">explore · replay</text>
+  <path class="a" d="M780 210V288" marker-end="url(#h)"/><text class="l" x="792" y="254">read before · hand in after</text>
+  <path class="a" d="M780 420V498" marker-end="url(#h)"/><text class="l" x="792" y="464">HTTP</text>
+  <path class="a" d="M360 700V798" marker-end="url(#h)"/><text class="l" x="372" y="754">tool calls · screenshots · JSON</text>
+  <path class="a" d="M780 700V798" marker-end="url(#h)"/><text class="l" x="792" y="754">explore · replay</text>
+  <path class="a" d="M1200 700V798" marker-end="url(#h)"/><text class="l" x="1212" y="754">read · write · realtime</text>
 </svg>
 </body></html>
