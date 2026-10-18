@@ -2,7 +2,7 @@
 
 ## One-liner
 
-Manufact Brain: an MCP server that gives agents shared notes about any website, read before they browse and written after, kept lean by a librarian, with a cold-vs-warm benchmark that shows the gain.
+Manufact Brain: replay any website workflow a person or agent already learned, in seconds and without model calls, and discover new ones with browser agents that build on every earlier exploration of the site. An MCP server on Manufact, plus a web UI and Chrome extension for people.
 
 ## Description (short)
 
@@ -18,7 +18,6 @@ Every agent that lands on a website starts from zero. Manufact Brain keeps one p
 - MCP URL: https://warm-steel-25plz.run.mcp-use.com/mcp
 - Repo: https://github.com/BABTUNA/manufact-brain
 - Brain page (notes, word for word, and the activity log): the bridge's `/brain`
-- Gains page (cold vs warm): the bridge's `/gains`
 
 ## Works in multiple clients (Manufact track ask)
 
@@ -37,6 +36,6 @@ If the bridge tunnel drops (site_notes answers "fetch failed"): `bash bridge/scr
 1. **Claude Code, fresh session.** `claude mcp add --transport http manufact-brain <url>`. Ask: "How do I report a pothole on sf.gov? Use Manufact Brain." Watch it call `site_notes`, read the known path, answer in one step.
 2. **A site nobody knows.** Ask about a goal on a new site. `site_notes` says "you are the first agent here", the agent browses, then calls `hand_in`. Switch to the Brain page: the notes appear, with the log line "claude-code handed in".
 3. **Second agent, same site.** New session, related goal. `site_notes` now has layout facts and the dead end; the agent goes straight there.
-4. **Gains page.** Cold vs warm on held-out goals, side by side. "Same goals, same site, the only difference is the brain."
+4. **Replay versus discovery.** On the Replays page: a known path replays in about 6 seconds for a tenth of a cent; discovering one takes three agents about 75 seconds. "Learn it once, replay it forever, and every new exploration starts from what the last one learned."
 5. **Agent hands off to a person.** In Claude Code: "How do I report a pothole on sf.gov? Give me a Guide me link." Click the link; the guide page opens, Start guide, and the extension highlights Report a problem on the real site.
 6. Close on the Manufact dashboard: sessions, tool calls, the server's listing.
