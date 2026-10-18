@@ -42,6 +42,8 @@ The server speaks streamable HTTP with no auth, so any client connects with its 
 
 Transcripts of the same question answered through Claude Code and Codex are in [docs/demo](docs/demo).
 
+Every tool call is also recorded with [Armature](https://armature.tech) MCP analytics ([mcp/analytics.ts](mcp/analytics.ts), one `tools/call` middleware): sessions scored on whether the agent got what it came for, grouped by use case, with issues and replays. Off unless `ANALYTICS_INGEST_API_KEY` is set.
+
 Resources: `brain://getting-started` (four lines on how to use it) and `brain://sites`. Prompt: `browse_with_the_brain`. Every error message says what to do next; nothing needs a human.
 
 The short version for agents is in [llms.txt](llms.txt).

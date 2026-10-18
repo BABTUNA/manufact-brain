@@ -27,7 +27,9 @@
     "typecheck": "mcp-use typecheck"
   },
   "dependencies": {
+    "@armature-tech/mcp-analytics": "^0.6.47",
     "@mcp-use/client": "^2.4.4",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "mcp-use": "2.10.1"
   },
   "devDependencies": {

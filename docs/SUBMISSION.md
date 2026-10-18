@@ -11,7 +11,7 @@ Every agent that lands on a website starts from zero. Manufact Brain keeps one p
 ## Tracks
 
 - Manufact: best MCP server for agents (built with mcp-use, deployed on Manufact).
-- Armature: build something agents use (self-onboarding, no human in the loop).
+- Armature: build something agents use (self-onboarding, no human in the loop). The server runs Armature MCP analytics, so every agent session is scored and replayable in the Armature dashboard.
 
 ## Links
 

@@ -4,6 +4,7 @@
 // and merges every hand-in with a librarian.
 import { MCPServer } from "mcp-use";
 import { z } from "zod";
+import { withArmature } from "./analytics.js";
 
 const BRIDGE = (process.env.BRIDGE_URL || "http://localhost:8790").replace(/\/+$/, "");
 const NAME = "Manufact Brain";
@@ -229,5 +230,8 @@ server.prompt(
     }],
   }),
 );
+
+// Armature analytics: scored sessions for every agent that uses the server (off without a key).
+withArmature(server);
 
 export default server;
