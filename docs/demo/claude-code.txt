@@ -1,7 +1,2 @@
-result: I could not get the sf.gov notes. The site_notes call failed twice with "fetch failed", and no further checks were possible because outbound curl needs approval in this non-interactive session.
-
-**What failed and where**
-
-- The hosted MCP server at warm-steel-25plz.run.mcp-use.com did respond to my calls. The error text is the one the server throws when its own fetch to the brain backend fails, so the server is up but its backend is unreachable.
-- That backend is the bridge. The hosted MCP server reads its location from the BRIDGE_URL deploy variable, and the keeper script in the bridge folder points at the Supabase compute bridge at vwnptwlibsllqexidmrj.supabase.co. That instance is most li
-cost 1.11039075 turns 20
+CLAUDE CODE result: An agent reports a pothole on sf.gov by clicking the "Report a problem" link in the main navigation, which opens the pothole form directly, or by searching "report pothole" to land on the same page (path verified 2026-10-17). The one dead end recorded in the notes is searching for "cleaning," which returns trash-pickup results instead of anything useful, so an agent should avoid relying on that search term.
+turns 3

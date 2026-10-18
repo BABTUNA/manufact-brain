@@ -20,6 +20,18 @@ Every agent that lands on a website starts from zero. Manufact Brain keeps one p
 - Brain page (notes, word for word, and the activity log): the bridge's `/brain`
 - Gains page (cold vs warm): the bridge's `/gains`
 
+## Works in multiple clients (Manufact track ask)
+
+Same question ("how would an agent report a pothole on sf.gov, and which dead end should it avoid"), answered from the brain through:
+
+- Claude Code: `docs/demo/claude-code.txt` (3 turns, one `site_notes` call)
+- Codex CLI: `docs/demo/codex.txt` (`mcp: manufact-brain/site_notes (completed)`)
+- mcp-use Inspector: `docs/demo/inspector-site-notes.jpg` (171 ms, 25 facts)
+- mcp-use client CLI: `npx mcp-use client connect prod <url>` then `tools call site_notes`
+- Cursor and VS Code: configs in the repo (`.cursor/mcp.json`, `.vscode/mcp.json`)
+
+If the bridge tunnel drops (site_notes answers "fetch failed"): `bash bridge/scripts/tunnel.sh`.
+
 ## Live demo (2 minutes)
 
 1. **Claude Code, fresh session.** `claude mcp add --transport http manufact-brain <url>`. Ask: "How do I report a pothole on sf.gov? Use Manufact Brain." Watch it call `site_notes`, read the known path, answer in one step.

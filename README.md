@@ -27,6 +27,21 @@ claude mcp add --transport http manufact-brain https://warm-steel-25plz.run.mcp-
 | `hand_in` | After browsing, always | Your steps, dead ends, walls and facts merged into the notes |
 | `brain_activity` | To see what is known | Which sites have notes and what changed |
 
+### Works in every MCP client
+
+The server speaks streamable HTTP with no auth, so any client connects with its URL. Configs for the editors are in the repo.
+
+| Client | How |
+|---|---|
+| Claude Code | `claude mcp add --transport http manufact-brain https://warm-steel-25plz.run.mcp-use.com/mcp` (or open this repo: [.mcp.json](.mcp.json)) |
+| Codex CLI | `codex mcp add manufact-brain --url https://warm-steel-25plz.run.mcp-use.com/mcp` |
+| Cursor | open this repo: [.cursor/mcp.json](.cursor/mcp.json) |
+| VS Code | open this repo: [.vscode/mcp.json](.vscode/mcp.json) |
+| Claude.ai, ChatGPT | add a custom connector with the URL |
+| mcp-use Inspector | paste the URL, or `npm run dev` in `mcp/` and open `/mcp/inspector` |
+
+Transcripts of the same question answered through Claude Code and Codex are in [docs/demo](docs/demo).
+
 Resources: `brain://getting-started` (four lines on how to use it) and `brain://sites`. Prompt: `browse_with_the_brain`. Every error message says what to do next; nothing needs a human.
 
 The short version for agents is in [llms.txt](llms.txt).
