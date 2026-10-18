@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gains · Manufact Brain</title>
+<link rel="icon" href="/assets/icons/icon-32.png">
+<link rel="stylesheet" href="/bb.css">
+<style>
+  .row { display: flex; gap: 10px 16px; align-items: center; flex-wrap: wrap; }
+  .st { display: inline-flex; align-items: center; gap: 6px; font: 600 11px/1 var(--mono); letter-spacing: 1px; text-transform: uppercase; color: var(--stone); white-space: nowrap; }
+  .st i { width: 7px; height: 7px; border-radius: 50%; background: var(--stone); }
+  .st.done { color: var(--orange-ink); } .st.done i { background: var(--orange); }
+  .st.running i { background: var(--orange); animation: pulse 1.2s infinite; }
+  .st.failed { color: var(--red-ink); } .st.failed i { background: var(--red); }
+  @keyframes pulse { 50% { opacity: .3; } }
+  select, input, textarea { font: 14px var(--body); color: var(--ink); background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  textarea { width: 100%; min-height: 76px; resize: vertical; }
+  .big { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+  .tile { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; }
+  .tile span { font: 600 11px/1 var(--mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); }
+  .tile .pair { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .tile b { font: 800 28px/1 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .tile b.cold { color: var(--stone); font-weight: 600; font-size: 20px; }
+  .tile b.warm { color: var(--ink); }
+  .tile .d { font: 600 13px var(--mono); color: var(--orange-ink); }
+  .tile .d.bad { color: var(--red-ink); }
+  .tbl { overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { font: 600 11px/1 var(--mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); white-space: nowrap; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.goal a { text-decoration: none; font-weight: 500; } td.goal a:hover { text-decoration: underline; }
+  .phase { font: 600 10px/1 var(--mono); letter-spacing: 1px; text-transform: uppercase; color: var(--stone); border: 1px solid var(--line); border-radius: 99px; padding: 3px 7px; }
+  .phase.warm { color: var(--orange-ink); border-color: var(--orange-soft); background: var(--orange-soft); }
+  .ok { color: var(--orange-ink); font-weight: 600; } .no { color: var(--red-ink); font-weight: 600; }
+  .form { display: grid; gap: 10px; }
+  .form .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } @media (max-width: 700px) { .form .two { grid-template-columns: 1fr; } }
+  .form label { display: grid; gap: 4px; font-size: 13px; color: var(--stone); }
+  .empty { padding: 28px; color: var(--stone); text-align: center; }
+  details summary { cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <nav class="nav">
+    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark.svg" alt="Manufact Brain"></a>
+    <a href="/ask">Ask</a>
+    <a href="/recorded">Recorded</a>
+    <span class="nav-sep" aria-hidden="true"></span>
+    <span class="nav-group">Agents</span>
+    <a href="/discovered">Discovered</a>
+    <a href="/explore">Explore</a>
+    <a href="/replays">Replays</a>
+    <a href="/history">History</a>
+    <a href="/brain">Brain</a>
+    <a href="/gains" class="on" aria-current="page">Gains</a>
+  </nav>
+  <header>
+    <div class="kicker">Gains</div>
+    <h1>Cold versus warm</h1>
+    <p class="lede">The same held-out goals, run twice on one site: cold, where agents read nothing, and warm, where they read the notes earlier races wrote. In between, a learning pass on different goals fills the notes. The test goals never appear in the learning pass, so the gain is the brain, not a memorized path.</p>
+  </header>
+  <div class="row">
+    <select id="pick" aria-label="Benchmark"></select>
+    <span class="st" id="status"><i></i><span>–</span></span>
+    <span class="muted" id="phase"></span>
+    <span class="muted" id="live"></span>
+  </div>
+  <section id="result"><div class="card empty">Loading…</div></section>
+  <details class="card" id="new"><summary>Run a benchmark</summary>
+    <form class="form" id="form">
+      <div class="two">
+        <label>Site URL<input name="url" required placeholder="https://docs.python.org/3/"></label>
+        <label>Name<input name="name" placeholder="docs.python.org · 3 held-out goals"></label>
+      </div>
+      <div class="two">
+        <label>Learning goals, one per line (agents read and write notes)<textarea name="train" placeholder="find the tutorial chapter on classes&#10;find the docs for the json module"></textarea></label>
+        <label>Test goals, one per line (run cold, then warm)<textarea name="test" required placeholder="find the glossary entry for decorator&#10;find what's new in the latest release"></textarea></label>
+      </div>
+      <div class="row">
+        <label>Agents per race <input name="agents" type="number" min="1" max="6" value="3" style="width:70px"></label>
+        <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" name="reset" checked> start from empty notes for this site</label>
+        <button class="btn" type="submit">Run cold → learn → warm</button>
+        <span class="muted" id="form-msg"></span>
+      </div>
+    </form>
+  </details>
+</main>
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const mmss = (s) => s == null ? "–" : `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+  const pct = (x) => x == null ? "–" : `${Math.round(x * 100)}%`;
+  const num = (x, d = 1) => x == null ? "–" : Number(x).toFixed(d);
+  const usd = (x) => x == null ? "–" : `$${Number(x).toFixed(3)}`;
+  let current = null, sb = null, chan = null;
+
+  const METRICS = [
+    ["Found a path", (s) => s.foundRate, pct, true],
+    ["Steps in the winning path", (s) => s.steps, (x) => num(x, 1), false],
+    ["Dead ends per race", (s) => s.deadEnds, (x) => num(x, 1), false],
+    ["Actions per race", (s) => s.actions, (x) => num(x, 0), false],
+    ["Time to a path", (s) => s.seconds, mmss, false],
+    ["Cost per race", (s) => s.cost, usd, false],
+  ];
+
+  function tiles(b) {
+    const c = b.summary.cold || {}, w = b.summary.warm || {};
+    return `<div class="big">${METRICS.map(([label, get, fmt, higherIsBetter]) => {
+      const a = get(c), z = get(w);
+      let d = "";
+      if (a != null && z != null && a !== 0) {
+        const rel = (z - a) / Math.abs(a);
+        const good = higherIsBetter ? rel > 0 : rel < 0;
+        d = `<span class="d ${good ? "" : rel === 0 ? "" : "bad"}">${rel > 0 ? "+" : ""}${Math.round(rel * 100)}%</span>`;
+      } else if (a != null && z != null && a === 0 && z !== 0) d = `<span class="d ${higherIsBetter ? "" : "bad"}">from 0</span>`;
+      return `<div class="tile"><span>${label}</span><div class="pair"><b class="cold" title="cold">${fmt(a)}</b><b class="warm" title="warm">${fmt(z)}</b>${d}</div></div>`;
+    }).join("")}</div>`;
+  }
+
+  function rows(b) {
+    const by = (phase) => Object.fromEntries((b.runs[phase] || []).map((r) => [r.goal, r]));
+    const cold = by("cold"), warm = by("warm");
+    const cell = (r) => r ? `<td class="num">${r.status === "running" || r.status === "judging" || r.status === "learning" ? "running…" : r.found ? `<span class="ok">✓</span> ${r.steps} step${r.steps === 1 ? "" : "s"}` : `<span class="no">✗</span> ${esc(r.status)}`}</td><td class="num">${r.deadEnds ?? "–"}</td><td class="num">${mmss(r.seconds)}</td>` : `<td class="num muted">–</td><td class="num muted">–</td><td class="num muted">–</td>`;
+    const trained = new Set((b.train || []).map((g) => g.trim().toLowerCase()));
+    const test = b.test.map((g) => `<tr><td class="goal">${esc(g[0].toUpperCase() + g.slice(1))} <span class="phase" title="${trained.has(g.trim().toLowerCase()) ? "also in the learning pass: the notes hold a verified path" : "never seen in the learning pass: only layout, tips and dead ends can help"}">${trained.has(g.trim().toLowerCase()) ? "repeat" : "held out"}</span><br><span class="muted" style="font-size:12px">${[cold[g] && `<a href="/explore/${esc(cold[g].explorationId)}">cold race</a>`, warm[g] && `<a href="/explore/${esc(warm[g].explorationId)}">warm race</a>`].filter(Boolean).join(" · ")}</span></td>${cell(cold[g])}${cell(warm[g])}</tr>`).join("");
+    const learn = (b.runs.learn || []).map((r) => `<tr><td class="goal"><a href="/explore/${esc(r.explorationId)}">${esc(r.goal[0].toUpperCase() + r.goal.slice(1))}</a></td><td class="num">${r.found ? `<span class="ok">✓</span> ${r.steps} steps` : r.status === "running" ? "running…" : `<span class="no">✗</span>`}</td><td class="num">${r.deadEnds ?? "–"}</td><td class="num">${r.learned ? `${r.learned.before} → ${r.learned.after} facts (v${r.learned.version})` : "–"}</td></tr>`).join("");
+    return `<div class="tbl"><table>
+      <thead><tr><th>Test goal</th><th colspan="3"><span class="phase">cold</span> result · dead ends · time</th><th colspan="3"><span class="phase warm">warm</span> result · dead ends · time</th></tr></thead>
+      <tbody>${test || '<tr><td colspan="7" class="empty">No test goals.</td></tr>'}</tbody></table></div>
+      <h2 style="margin:22px 0 8px;font-size:16px">Learning pass</h2>
+      <p class="muted" style="margin:0 0 10px;font-size:13px">Different goals on the same site. Agents read the notes (v0 at first) and hand back what they saw; the notes grew from ${b.notes.before} to ${b.notes.afterLearn} facts, and to ${b.notes.afterWarm} after the warm pass. <a href="/brain?site=${encodeURIComponent(b.site)}">Read the notes.</a></p>
+      <div class="tbl"><table><thead><tr><th>Learning goal</th><th>Result</th><th>Dead ends</th><th>Notes after</th></tr></thead><tbody>${learn || '<tr><td colspan="4" class="empty">Not started.</td></tr>'}</tbody></table></div>`;
+  }
+
+  function render(b) {
+    current = b;
+    $("status").className = `st ${esc(b.status)}`;
+    $("status").querySelector("span").textContent = b.status === "done" ? "finished" : b.status;
+    $("phase").textContent = b.status === "running" ? `${b.phase} pass${b.current ? ` · "${b.current.goal}"` : ""}` : `${b.agents} agents per race · ${b.site}`;
+    $("result").innerHTML = tiles(b) + `<div style="height:18px"></div>` + rows(b);
+    document.title = `${b.name} · Gains · Manufact Brain`;
+  }
+
+  async function show(id) {
+    const b = await fetch(`/bench/${encodeURIComponent(id)}.json`).then((r) => r.json());
+    if (b.error) return;
+    render(b);
+    history.replaceState(null, "", `/gains/${encodeURIComponent(id)}`);
+    if (sb) {
+      if (chan) sb.removeChannel(chan);
+      chan = sb.channel(`bench:${id}`)
+        .on("postgres_changes", { event: "*", schema: "public", table: "benchmarks", filter: `id=eq.${id}` }, (msg) => msg.new?.doc && render(msg.new.doc))
+        .subscribe((s) => { $("live").textContent = s === "SUBSCRIBED" ? "● live" : ""; });
+    }
+  }
+
+  async function load(prefer) {
+    const { benchmarks } = await fetch("/bench.json").then((r) => r.json());
+    const want = prefer || location.pathname.split("/gains/")[1] || benchmarks[0]?.id;
+    $("pick").innerHTML = benchmarks.map((b) => `<option value="${esc(b.id)}"${b.id === want ? " selected" : ""}>${esc(b.name)}</option>`).join("") || '<option>No benchmarks yet</option>';
+    if (want) show(decodeURIComponent(want)); else { $("result").innerHTML = '<div class="card empty">No benchmark yet. Run one below.</div>'; $("new").open = true; }
+  }
+  $("pick").onchange = (e) => show(e.target.value);
+  $("form").onsubmit = async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    $("form-msg").textContent = "starting…";
+    const r = await fetch("/bench", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ url: f.get("url"), name: f.get("name"), train: f.get("train"), test: f.get("test"), agents: Number(f.get("agents")), reset: f.get("reset") === "on" }) }).then((r) => r.json());
+    if (r.error) { $("form-msg").textContent = r.error; return; }
+    $("form-msg").textContent = ""; $("new").open = false;
+    load(r.id);
+  };
+  if (window.SUPA?.url && window.supabase) sb = supabase.createClient(window.SUPA.url, window.SUPA.anonKey);
+  load();
+</script>
+</body>
+</html>

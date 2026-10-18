@@ -1,0 +1,37 @@
+{
+  "name": "manufact-brain",
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.2"
+  },
+  "version": "1.0.0",
+  "description": "Manufact Brain: notes about any website that agents read before they browse and write to after. Verified paths, dead ends, walls and tips, kept lean by a librarian.",
+  "author": "BABTUNA",
+  "license": "MIT",
+  "homepage": "https://github.com/BABTUNA/manufact-brain",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "agents",
+    "browser-agents",
+    "shared-memory",
+    "site-notes",
+    "mcp-use",
+    "manufact"
+  ],
+  "scripts": {
+    "build": "mcp-use build",
+    "dev": "mcp-use dev",
+    "start": "mcp-use start",
+    "deploy": "mcp-use deploy",
+    "typecheck": "mcp-use typecheck"
+  },
+  "dependencies": {
+    "@mcp-use/client": "^2.4.4",
+    "mcp-use": "2.10.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.0",
+    "typescript": "^7.0.2"
+  }
+}

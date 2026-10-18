@@ -1,0 +1,48 @@
+<!doctype html>
+<!-- Manufact Brain, simple architecture. Hand-laid SVG; render with: bash render.sh -->
+<html lang="en"><head><meta charset="utf-8"><title>Manufact Brain overview</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,800&family=Onest:wght@400;500&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  html,body{margin:0;background:#F5F6F8}
+  svg{display:block}
+  .t{font:800 22px Archivo,sans-serif;fill:#111318;letter-spacing:-.02em;text-anchor:middle}
+  .s{font:400 15px Onest,sans-serif;fill:#646B78;text-anchor:middle}
+  .l{font:500 13px "JetBrains Mono",monospace;fill:#646B78}
+  .box{fill:#fff;stroke:#111318;stroke-width:2}
+  .ext{fill:#F5F6F8;stroke:#9AA0AB;stroke-width:1.5;stroke-dasharray:6 5}
+  .a{stroke:#111318;stroke-width:2;fill:none}
+</style></head><body>
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="760" viewBox="0 0 1560 760">
+  <defs><marker id="h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#111318"/></marker></defs>
+
+  <image href="../../assets/logo/manufactbrain-mark.svg" x="36" y="26" width="64" height="64"/>
+  <text x="108" y="70" style="font:800 30px Archivo,sans-serif;letter-spacing:-.03em" fill="#111318">Manufact Brain <tspan fill="#4A3BD6">architecture</tspan></text>
+
+  <!-- top row -->
+  <rect class="box" x="180" y="130" width="300" height="90" rx="12"/>
+  <text class="t" x="330" y="169">Your team</text><text class="s" x="330" y="195">Chrome extension · Ask room</text>
+  <rect class="ext" x="630" y="130" width="300" height="90" rx="12"/>
+  <text class="t" x="780" y="169">Explorer agents</text><text class="s" x="780" y="195">race in headless browsers · hand in</text>
+  <rect x="1080" y="130" width="300" height="90" rx="12" fill="#111318"/>
+  <text class="t" x="1230" y="169" style="fill:#F5F6F8">Keeper</text><text class="s" x="1230" y="195" style="fill:#B9B1FF">replays every path · marks stale · heals</text>
+
+  <!-- core -->
+  <rect x="180" y="320" width="1200" height="170" rx="16" fill="#6B5CFF" stroke="#111318" stroke-width="2"/>
+  <text class="t" x="780" y="382" style="font-size:30px">Manufact Brain</text>
+  <text class="s" x="780" y="414" style="fill:#111318;font-weight:500;font-size:16px">shared notes per site · librarian merge · judge · benchmark</text>
+  <text class="s" x="780" y="452" style="fill:#111318;font-size:14px">read before you work · write after · lean, dated, versioned · every change logged</text>
+
+  <!-- bottom row -->
+  <rect class="ext" x="250" y="590" width="460" height="90" rx="12"/>
+  <text class="t" x="480" y="629">Crusoe Managed Inference</text><text class="s" x="480" y="655">Nemotron 3.5 agents · Gemma 4 judge · Nemotron Nano librarian</text>
+  <rect class="ext" x="910" y="590" width="340" height="90" rx="12"/>
+  <text class="t" x="1080" y="629">Web apps</text><text class="s" x="1080" y="655">headless browsers, no logins</text>
+
+  <!-- arrows -->
+  <path class="a" d="M330 220V318" marker-end="url(#h)"/><text class="l" x="342" y="274">goals · Brain · Gains pages</text>
+  <path class="a" d="M780 220V318" marker-end="url(#h)"/><text class="l" x="792" y="274">read notes · hand in</text>
+  <path class="a" d="M1230 220V318" marker-end="url(#h)"/><text class="l" x="1242" y="274">stale · heal</text>
+  <path class="a" d="M480 490V588" marker-end="url(#h)"/><text class="l" x="492" y="544">tool calls · screenshots · JSON</text>
+  <path class="a" d="M1080 490V588" marker-end="url(#h)"/><text class="l" x="1092" y="544">explore · replay</text>
+</svg>
+</body></html>

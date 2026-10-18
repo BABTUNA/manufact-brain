@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Manufact Brain">
+  <!-- App icon, violet tile: white brain. -->
+  <rect width="512" height="512" rx="112" fill="#6B5CFF"/>
+  <g transform="translate(56.32 56.32) scale(0.7800)"><g stroke="#E9E6FF" stroke-width="20" stroke-linecap="round"><line x1="176" y1="168" x2="336" y2="168"/><line x1="176" y1="168" x2="120" y2="296"/><line x1="176" y1="168" x2="256" y2="270"/><line x1="336" y1="168" x2="256" y2="270"/><line x1="336" y1="168" x2="392" y2="296"/><line x1="120" y1="296" x2="256" y2="270"/><line x1="256" y1="270" x2="392" y2="296"/><line x1="120" y1="296" x2="196" y2="404"/><line x1="256" y1="270" x2="196" y2="404"/><line x1="256" y1="270" x2="316" y2="404"/><line x1="392" y1="296" x2="316" y2="404"/><line x1="196" y1="404" x2="316" y2="404"/></g>
+    <g fill="#FFFFFF"><circle cx="176" cy="168" r="38"/><circle cx="336" cy="168" r="38"/><circle cx="120" cy="296" r="38"/><circle cx="256" cy="270" r="38"/><circle cx="392" cy="296" r="38"/><circle cx="196" cy="404" r="38"/><circle cx="316" cy="404" r="38"/></g>
+    <circle cx="256" cy="270" r="24" fill="#6B5CFF"/></g>
+</svg>

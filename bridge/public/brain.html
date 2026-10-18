@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brain · Manufact Brain</title>
+<link rel="icon" href="/assets/icons/icon-32.png">
+<link rel="stylesheet" href="/bb.css">
+<style>
+  .stats { display: flex; gap: 16px 32px; flex-wrap: wrap; }
+  .stats div { display: grid; gap: 2px; }
+  .stats b { font: 800 30px/1 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .stats span { color: var(--stone); font-size: 13px; }
+  .grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr); gap: 20px; align-items: start; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .sites { display: grid; gap: 14px; }
+  .site .top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .site h2 { margin: 0; font: 700 18px/1.2 var(--display); letter-spacing: -0.01em; }
+  .site .meta { font: 500 12px var(--mono); color: var(--stone); }
+  .counts { display: flex; gap: 6px; flex-wrap: wrap; }
+  .notes { margin: 0; white-space: pre-wrap; font: 13px/1.55 var(--mono); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; max-height: 420px; overflow: auto; }
+  .notes.empty { color: var(--stone); }
+  .log { display: grid; gap: 0; background: var(--white); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .log h2 { margin: 0; padding: 14px 16px; font: 600 11px/1 var(--mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; }
+  .entry { display: grid; grid-template-columns: 64px 1fr; gap: 10px; padding: 11px 16px; border-bottom: 1px solid var(--line); font-size: 13px; animation: in .3s ease-out; }
+  .entry:last-child { border-bottom: 0; }
+  @keyframes in { from { background: var(--orange-soft); } }
+  .kind { font: 600 10px/1 var(--mono); letter-spacing: 1px; text-transform: uppercase; color: var(--stone); border: 1px solid var(--line); border-radius: 99px; padding: 4px 0; text-align: center; height: fit-content; }
+  .kind.merge, .kind.heal { color: var(--orange-ink); border-color: var(--orange-soft); background: var(--orange-soft); }
+  .kind.stale { color: var(--red-ink); border-color: #F6D5D0; background: #FBE9E6; }
+  .entry .t { display: block; color: var(--stone); font: 500 11px var(--mono); margin-top: 3px; }
+  .entry a { color: inherit; }
+  .empty { padding: 28px; color: var(--stone); text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <nav class="nav">
+    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark.svg" alt="Manufact Brain"></a>
+    <a href="/ask">Ask</a>
+    <a href="/recorded">Recorded</a>
+    <span class="nav-sep" aria-hidden="true"></span>
+    <span class="nav-group">Agents</span>
+    <a href="/discovered">Discovered</a>
+    <a href="/explore">Explore</a>
+    <a href="/replays">Replays</a>
+    <a href="/history">History</a>
+    <a href="/brain" class="on" aria-current="page">Brain</a>
+    <a href="/gains">Gains</a>
+  </nav>
+  <header>
+    <div class="kicker">Shared brain</div>
+    <h1>What every agent reads first</h1>
+    <p class="lede">One living page of notes per site. Agents read it before they explore and hand back what they learned; a librarian merges the hand-ins, keeps the notes short and dated, and drops what broke. This is the whole page, word for word, as the agents see it.</p>
+  </header>
+  <div class="stats">
+    <div><b id="s-sites">–</b><span>sites with notes</span></div>
+    <div><b id="s-facts">–</b><span>facts</span></div>
+    <div><b id="s-reads">–</b><span>reads by agents</span></div>
+    <div><b id="s-merges">–</b><span>merges</span></div>
+  </div>
+  <div class="grid">
+    <section class="sites" id="sites"><div class="card empty">Loading…</div></section>
+    <aside class="log"><h2>Activity <span id="live"></span></h2><div id="log"><div class="empty">Loading…</div></div></aside>
+  </div>
+</main>
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const when = (iso) => { const d = new Date(iso); return d.toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", second: "2-digit" }); };
+  const site = new URLSearchParams(location.search).get("site");
+
+  function render({ sites, log }) {
+    const shown = site ? sites.filter((s) => s.site === site) : sites;
+    $("s-sites").textContent = sites.length;
+    $("s-facts").textContent = sites.reduce((n, s) => n + s.facts, 0);
+    $("s-reads").textContent = log.filter((e) => e.kind === "read").length + (log.length >= 60 ? "+" : "");
+    $("s-merges").textContent = log.filter((e) => e.kind === "merge").length + (log.length >= 60 ? "+" : "");
+    $("sites").innerHTML = shown.length ? shown.map((s) => `<article class="card site">
+      <div class="top"><h2>${esc(s.site)}</h2><span class="meta">notes v${s.version} · ${s.facts} facts · updated ${when(s.updatedAt)}</span></div>
+      <div class="counts">${Object.entries(s.counts).filter(([, n]) => n).map(([k, n]) => `<span class="tag${k === "stalePaths" ? "" : " agent"}">${n} ${esc({ layout: "layout facts", paths: "known paths", stalePaths: "broken paths", deadEnds: "dead ends", walls: "walls", tips: "tips" }[k] || k)}</span>`).join("")}</div>
+      <pre class="notes">${esc(s.text)}</pre>
+    </article>`).join("") : `<div class="card empty">No notes yet. <a href="/explore">Send agents to a site</a> and they will write the first page.</div>`;
+    $("log").innerHTML = log.length ? log.map((e) => `<div class="entry"><span class="kind ${esc(e.kind)}">${esc(e.kind)}</span><div>${esc(e.summary)}${e.exploration_id ? ` <a href="/explore/${esc(e.exploration_id)}">watch</a>` : ""}<span class="t">${esc(e.site)} · ${when(e.at)}</span></div></div>`).join("") : '<div class="empty">Nothing yet.</div>';
+  }
+  const load = () => fetch(`/brain.json${site ? `?site=${encodeURIComponent(site)}` : ""}`).then((r) => r.json()).then(render).catch(() => { $("sites").innerHTML = '<div class="card empty">Could not load.</div>'; });
+  load();
+  if (window.SUPA?.url && window.supabase) {
+    const sb = supabase.createClient(window.SUPA.url, window.SUPA.anonKey);
+    let t = null;
+    const bump = () => { clearTimeout(t); t = setTimeout(load, 300); };
+    sb.channel("brain")
+      .on("postgres_changes", { event: "*", schema: "public", table: "brain_log" }, bump)
+      .on("postgres_changes", { event: "*", schema: "public", table: "site_notes" }, bump)
+      .subscribe((s) => { $("live").textContent = s === "SUBSCRIBED" ? "● live" : ""; });
+  }
+</script>
+</body>
+</html>
