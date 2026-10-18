@@ -11,7 +11,7 @@
   .stats div { display: grid; gap: 2px; }
   .stats b { font: 800 30px/1 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
   .stats span { color: var(--stone); font-size: 13px; }
-  .tbl { position: relative; overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: 12px; }
+  .tbl { position: relative; overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); }
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
   th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
   tr:last-child td { border-bottom: 0; }
@@ -45,7 +45,7 @@
 <body>
 <main>
   <nav class="nav">
-    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark.svg" alt="Manufact Brain"></a>
+    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark-dark.svg" alt="Manufact Brain"></a>
     <a href="/ask">Ask</a>
     <a href="/recorded">Recorded</a>
     <span class="nav-sep" aria-hidden="true"></span>

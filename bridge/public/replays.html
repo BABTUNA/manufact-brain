@@ -12,14 +12,14 @@
   .stats b { font: 800 30px/1 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
   .stats b.big { color: var(--orange-deep); }
   .stats span { color: var(--stone); font-size: 13px; }
-  .connect { display: grid; gap: 10px; background: var(--ink); color: var(--paper); border-radius: 12px; padding: 18px 20px; }
+  .connect { display: grid; gap: 10px; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
   .connect h2 { color: var(--paper); }
-  .connect p { margin: 0; color: #A3A3A3; font-size: 14px; max-width: 70ch; }
+  .connect p { margin: 0; color: var(--stone); font-size: 14px; max-width: 70ch; }
   .connect p code { overflow-wrap: anywhere; }
-  .connect pre { margin: 0; background: #0E0E0E; border: 1px solid #2E2E2E; border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 500 12.5px/1.6 var(--mono); color: #EDEDED; }
+  .connect pre { margin: 0; background: var(--well); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font: 500 12.5px/1.6 var(--mono); color: #EDEDED; }
   .connect code { font-family: var(--mono); color: var(--orange-soft); }
   .tools { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tools span { font: 500 12px/1 var(--mono); border: 1px solid #2E2E2E; border-radius: 99px; padding: 6px 10px; color: #EDEDED; }
+  .tools span { font: 500 12px/1 var(--mono); border: 1px solid var(--line); border-radius: 99px; padding: 6px 10px; color: #EDEDED; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
   tbody tr:last-child td { border-bottom: 0; }
@@ -29,10 +29,10 @@
   td.num { font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .pill { font: 500 11px/1 var(--mono); border-radius: 99px; padding: 4px 8px; white-space: nowrap; }
   .pill.ok { color: var(--orange-ink); background: var(--orange-soft); }
-  .pill.bad { color: var(--red-ink); background: #FBECEA; }
-  .pill.healed { color: #6B4A00; background: #FFF3C4; }
+  .pill.bad { color: var(--red-ink); background: var(--red-soft); }
+  .pill.healed { color: var(--amber); background: var(--amber-soft); }
   .muted { color: var(--stone); }
-  .wrap { overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: 12px; }
+  .wrap { overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); }
   tr.new td { animation: flash 1.6s ease-out; }
   @keyframes flash { from { background: var(--orange-soft); } to { background: transparent; } }
   @media (prefers-reduced-motion: reduce) { tr.new td { animation: none; } }

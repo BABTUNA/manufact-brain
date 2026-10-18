@@ -17,7 +17,7 @@
   @media (prefers-reduced-motion: reduce) { .status.running i { animation: none; } }
   .clock { font: 500 13px var(--mono); color: var(--stone); }
   .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 14px; }
-  .tile { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 10px; transition: border-color .2s; }
+  .tile { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; display: grid; gap: 10px; transition: border-color .2s; }
   .tile.winner { border-color: var(--orange); box-shadow: 0 0 0 3px var(--orange-soft); }
   .tile .n { font: 800 13px var(--display); color: var(--stone); }
   .tile .strategy { font-size: 14px; min-height: 2.6em; }
@@ -35,23 +35,23 @@
   .tile.done .bar i { width: 100%; }
   .tile.gave_up .bar i, .tile.error .bar i { background: var(--red); }
   /* The agent said it reached the goal; the judge's screenshots say otherwise. */
-  .tile.disputed .bar i { background: repeating-linear-gradient(135deg, var(--red) 0 6px, #F2B8B5 6px 12px); }
-  .tile.disputed .state b { color: #B3261E; }
+  .tile.disputed .bar i { background: repeating-linear-gradient(135deg, var(--red) 0 6px, var(--red-line) 6px 12px); }
+  .tile.disputed .state b { color: var(--red-ink); }
   .trail { display: grid; gap: 4px; font-size: 13px; padding-left: 18px; margin: 0; }
   .trail li::marker { color: var(--stone); font: 600 12px var(--mono); }
   .crown { position: absolute; top: -10px; right: 12px; font: 600 10px/1 var(--mono); letter-spacing: 1.5px; text-transform: uppercase; background: var(--orange-ink); color: var(--white); border-radius: 99px; padding: 5px 9px; }
   .evals { display: flex; flex-wrap: wrap; gap: 6px; }
   .ev { font: 500 11px/1 var(--mono); border: 1px solid var(--line); border-radius: 99px; padding: 4px 8px; color: var(--stone); background: var(--white); cursor: help; }
   .ev.pass { color: var(--orange-ink); border-color: var(--orange-soft); background: var(--orange-soft); }
-  .ev.fail { color: var(--red-ink); border-color: #F5D5D1; background: #FBECEA; }
+  .ev.fail { color: var(--red-ink); border-color: var(--red-line); background: var(--red-soft); }
   .ev.pending { border-style: dashed; }
   .tile .trace-btn { justify-self: start; font: 500 12px var(--body); color: var(--stone); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
   .tile .trace-btn:hover { color: var(--ink); }
-  .result { display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap; background: var(--ink); color: var(--paper); border-radius: 12px; padding: 18px 20px; }
+  .result { display: flex; gap: 14px; align-items: center; justify-content: space-between; flex-wrap: wrap; background: var(--white); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
   .result h2 { color: var(--paper); }
-  .result p { margin: 4px 0 0; color: #A3A3A3; font-size: 14px; }
+  .result p { margin: 4px 0 0; color: var(--stone); font-size: 14px; }
   .result .btn:not(.secondary) { background: var(--orange); color: var(--ink); }
-  .result .btn:not(.secondary):hover { background: #E8873A; }
+  .result .btn:not(.secondary):hover { background: var(--orange); }
   .result.bad { background: var(--white); color: var(--ink); border: 1px solid var(--line); }
   .result.bad h2 { color: var(--ink); }
   .result.bad p { color: var(--stone); }
@@ -66,7 +66,7 @@
   .tabs button:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
   .film { display: grid; gap: 10px; }
   .cmds { display: grid; gap: 8px; }
-  .film .stage { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .film .stage { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
   .film .stage img { display: block; width: 100%; height: auto; }
   .film .cap { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; font-size: 14px; }
   .film .cap b { font-weight: 600; }
@@ -79,7 +79,7 @@
   .film .thumbs img { display: block; width: 100%; height: auto; }
   .film .kind { font: 600 10px/1 var(--mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--orange-ink); }
   .film .kind.back { color: var(--red-ink); }
-  .cmd { background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 6px; }
+  .cmd { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; display: grid; gap: 6px; }
   .cmd .c { font: 500 12.5px var(--mono); color: var(--ink); white-space: pre-wrap; word-break: break-word; }
   .cmd .o { font: 12px var(--mono); color: var(--stone); white-space: pre-wrap; word-break: break-word; max-height: 140px; overflow: auto; }
   .cmd .o.fail { color: var(--red); }
@@ -89,7 +89,7 @@
 <body>
 <main>
   <nav class="nav">
-    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark.svg" alt="Manufact Brain"></a>
+    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark-dark.svg" alt="Manufact Brain"></a>
     <a href="/ask">Ask</a>
     <a href="/recorded">Recorded</a>
     <span class="nav-sep" aria-hidden="true"></span>

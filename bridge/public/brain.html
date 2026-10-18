@@ -18,16 +18,16 @@
   .site h2 { margin: 0; font: 700 18px/1.2 var(--display); letter-spacing: -0.01em; }
   .site .meta { font: 500 12px var(--mono); color: var(--stone); }
   .counts { display: flex; gap: 6px; flex-wrap: wrap; }
-  .notes { margin: 0; white-space: pre-wrap; font: 13px/1.55 var(--mono); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; max-height: 420px; overflow: auto; }
+  .notes { margin: 0; white-space: pre-wrap; font: 13px/1.55 var(--mono); color: var(--ink); background: var(--well); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; max-height: 420px; overflow: auto; }
   .notes.empty { color: var(--stone); }
-  .log { display: grid; gap: 0; background: var(--white); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .log { display: grid; gap: 0; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
   .log h2 { margin: 0; padding: 14px 16px; font: 600 11px/1 var(--mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; }
   .entry { display: grid; grid-template-columns: 64px 1fr; gap: 10px; padding: 11px 16px; border-bottom: 1px solid var(--line); font-size: 13px; animation: in .3s ease-out; }
   .entry:last-child { border-bottom: 0; }
   @keyframes in { from { background: var(--orange-soft); } }
   .kind { font: 600 10px/1 var(--mono); letter-spacing: 1px; text-transform: uppercase; color: var(--stone); border: 1px solid var(--line); border-radius: 99px; padding: 4px 0; text-align: center; height: fit-content; }
   .kind.merge, .kind.heal { color: var(--orange-ink); border-color: var(--orange-soft); background: var(--orange-soft); }
-  .kind.stale { color: var(--red-ink); border-color: #F6D5D0; background: #FBE9E6; }
+  .kind.stale { color: var(--red-ink); border-color: var(--red-line); background: var(--red-soft); }
   .entry .t { display: block; color: var(--stone); font: 500 11px var(--mono); margin-top: 3px; }
   .entry a { color: inherit; }
   .empty { padding: 28px; color: var(--stone); text-align: center; }
@@ -36,7 +36,7 @@
 <body>
 <main>
   <nav class="nav">
-    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark.svg" alt="Manufact Brain"></a>
+    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark-dark.svg" alt="Manufact Brain"></a>
     <a href="/ask">Ask</a>
     <a href="/recorded">Recorded</a>
     <span class="nav-sep" aria-hidden="true"></span>

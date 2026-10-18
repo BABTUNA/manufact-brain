@@ -14,10 +14,10 @@
   .st.running i { background: var(--orange); animation: pulse 1.2s infinite; }
   .st.failed { color: var(--red-ink); } .st.failed i { background: var(--red); }
   @keyframes pulse { 50% { opacity: .3; } }
-  select, input, textarea { font: 14px var(--body); color: var(--ink); background: var(--white); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  select, input, textarea { font: 14px var(--body); color: var(--ink); background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; }
   textarea { width: 100%; min-height: 76px; resize: vertical; }
   .big { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-  .tile { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; }
+  .tile { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: grid; gap: 6px; }
   .tile span { font: 600 11px/1 var(--mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); }
   .tile .pair { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
   .tile b { font: 800 28px/1 var(--display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
@@ -25,7 +25,7 @@
   .tile b.warm { color: var(--ink); }
   .tile .d { font: 600 13px var(--mono); color: var(--orange-ink); }
   .tile .d.bad { color: var(--red-ink); }
-  .tbl { overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: 12px; }
+  .tbl { overflow-x: auto; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); }
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
   th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
   tr:last-child td { border-bottom: 0; }
@@ -45,7 +45,7 @@
 <body>
 <main>
   <nav class="nav">
-    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark.svg" alt="Manufact Brain"></a>
+    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark-dark.svg" alt="Manufact Brain"></a>
     <a href="/ask">Ask</a>
     <a href="/recorded">Recorded</a>
     <span class="nav-sep" aria-hidden="true"></span>

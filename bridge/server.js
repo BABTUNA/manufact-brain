@@ -358,7 +358,7 @@ const PAGES = {
 const nav = (on) => {
   const a = (href, key, label) => `<a href="${href}"${on === key ? ' class="on" aria-current="page"' : ""}>${label}</a>`;
   return `<nav class="nav">
-    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark.svg" alt="Manufact Brain"></a>
+    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark-dark.svg" alt="Manufact Brain"></a>
     ${a("/ask", "ask", "Ask")}
     ${a("/recorded", "recorded", "Recorded")}
     <span class="nav-sep" aria-hidden="true"></span>

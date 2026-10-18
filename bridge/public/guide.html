@@ -11,7 +11,7 @@
   /* Same nav width as every other page; the guide itself stays a readable column. */
   main > :not(.nav) { max-width: 680px; }
   .meta { color: var(--stone); margin-top: 6px; }
-  ol { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 20px 20px 20px 46px; margin: 0; display: grid; gap: 12px; }
+  ol { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 20px 20px 46px; margin: 0; display: grid; gap: 12px; }
   li { padding-left: 4px; }
   li::marker { font: 600 13px var(--mono); color: var(--stone); }
   .tag { margin-left: 6px; }
@@ -23,7 +23,7 @@
 <body data-workflow-id="{{ID}}" data-start-url="{{START}}">
 <main>
   <nav class="nav">
-    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark.svg" alt="Manufact Brain"></a>
+    <a class="brand" href="/ask" aria-label="Manufact Brain"><img src="/assets/logo/manufactbrain-wordmark-dark.svg" alt="Manufact Brain"></a>
     <a href="/ask">Ask</a>
     <a href="/recorded">Recorded</a>
     <span class="nav-sep" aria-hidden="true"></span>
